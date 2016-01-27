@@ -1,7 +1,9 @@
 const https = require('https');
+const jsdom = require("jsdom");
 
 //Function that makes requests to the parameterized url
 function makeRequest(url) {
+	var document = "";
 	//Make the request, logging the status code and headers
 	https.get(url, (res) => {
 		console.log('statusCode: ', res.statusCode);
@@ -9,12 +11,13 @@ function makeRequest(url) {
 
 		//Chunk the data and write it out
 		res.on('data', (d) => {
-			process.stdout.write(d);
+			document = jsdom.jsdom(d);
 		});
 
 		//Handle the end of the response
 		res.on('end', () => {
-			console.log('\nResponse End')
+			console.log('\nResponse End');
+			return document;
 		});
 
 	//Handle errors
@@ -23,4 +26,6 @@ function makeRequest(url) {
 	});
 };
 
-makeRequest('https://www.riddles.com/201');
+for (var i = 1; i <= 2; i++) {
+	console.log(makeRequest('https://www.riddles.com/' + i));
+};
