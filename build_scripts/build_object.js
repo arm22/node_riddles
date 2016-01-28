@@ -10,10 +10,16 @@ function makeRequest(urls) {
 	  		scripts: ["http://code.jquery.com/jquery.js"],
 	  		done: (err, window) => {
 	  			if (err == null) {
-  					var element = window.$('.panel-body div[itemprop="text"] p');
-		  			var riddle = typeof element[0];
-		  			var answer = typeof element[1];
-		    		console.log(riddle, answer);
+	  				var title = window.$('h1.panel-title[itemprop="name"]').first().text();
+  					var body = window.$('.panel-body div[itemprop="text"] p');
+		  			var question = body[0].innerHTML;
+		  			var answer = body[1].innerHTML;
+		  			var jsonObj = {
+		  				title: title,
+		  				quesiton: question,
+		  				answer: answer
+		  			};
+		    		console.log(jsonObj);
 	  			} else {
 	  				console.log("Error: " + err);
 	  			}
