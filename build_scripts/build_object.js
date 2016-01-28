@@ -1,31 +1,24 @@
-const https = require('https');
+//Require jsdom library
 const jsdom = require("jsdom");
 
 //Function that makes requests to the parameterized url
-function makeRequest(url) {
-	var document = "";
-	//Make the request, logging the status code and headers
-	https.get(url, (res) => {
-		console.log('statusCode: ', res.statusCode);
-		console.log('headers: ', res.headers);
-
-		//Chunk the data and write it out
-		res.on('data', (d) => {
-			document = jsdom.jsdom(d);
-		});
-
-		//Handle the end of the response
-		res.on('end', () => {
-			console.log('\nResponse End');
-			return document;
-		});
-
-	//Handle errors
-	}).on('error', (e) => {
-		console.error(e);
+function makeRequest(urls) {
+	//Set jsdom environment
+	jsdom.env({
+		url: urls,
+			//Parse html with jquery
+	  		scripts: ["http://code.jquery.com/jquery.js"],
+	  		done: (err, window) => {
+	  			if (err == null) {
+  					var element = window.$('.panel-body div[itemprop="text"] p');
+		  			var riddle = typeof element[0];
+		  			var answer = typeof element[1];
+		    		console.log(riddle, answer);
+	  			} else {
+	  				console.log("Error: " + err);
+	  			}
+	  		}
 	});
 };
 
-for (var i = 1; i <= 2; i++) {
-	console.log(makeRequest('https://www.riddles.com/' + i));
-};
+makeRequest('https://www.riddles.com/2');
