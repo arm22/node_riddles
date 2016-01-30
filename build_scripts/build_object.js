@@ -1,5 +1,10 @@
 //Require jsdom library
 const jsdom = require("jsdom");
+//Number of pages we need to scrape
+const num_pages = 5;
+//The base url we are scraping
+const base = "https://www.riddles.com/";
+//Data structure that holds our needed data
 var data = [];
 
 //Function that makes requests to the parameterized url
@@ -26,13 +31,15 @@ function makeRequest(urls) {
 		  				answer: answer
 		  			};
 		  			data.push(jsonObj);
-		  			console.log(data);
+		  			if (data.length >= num_pages) {
+		  				console.log(data);
+		  			};
 	  			}
 	  		}
 	});
 };
 
 
-for (var i = 2; i <= 5; i++) {
-	makeRequest("https://www.riddles.com/" + i.toString());
+for (var i = 2; i <= num_pages+1; i++) {
+	makeRequest(base + i.toString());
 };
