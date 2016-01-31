@@ -1,11 +1,26 @@
 //Require jsdom library
 const jsdom = require("jsdom");
+//Require filesystem
+const fs = require("fs");
 //Number of pages we need to scrape
-const num_pages = 5;
+const num_pages = 2012;
 //The base url we are scraping
 const base = "https://www.riddles.com/";
 //Data structure that holds our needed data
-var data = [];
+var obj = { data: []};
+
+//Write the data to a file
+function toFile() {
+	//Build stream
+	var file = fs.createWriteStream('build_scripts/data.json');
+	//handle errors
+	file.on('error', (err) => {
+		console.log("Error: " + err);
+	});
+	//Write the data, and close the file
+	file.write(JSON.stringify(obj));
+	file.end();
+};
 
 //Function that makes requests to the parameterized url
 function makeRequest(urls) {
@@ -30,9 +45,9 @@ function makeRequest(urls) {
 		  				quesiton: question,
 		  				answer: answer
 		  			};
-		  			data.push(jsonObj);
-		  			if (data.length >= num_pages) {
-		  				console.log(data);
+		  			obj.data.push(jsonObj);
+		  			if (obj.data.length >= num_pages) {
+		  				toFile();
 		  			};
 	  			}
 	  		}
