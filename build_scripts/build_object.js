@@ -1,18 +1,22 @@
 //Require jsdom library
 const jsdom = require("jsdom");
-//Require filesystem
-const fs = require("fs");
+//DB client
+const MongoClient = require('mongodb').MongoClient;
+//Assertion for DB
+const assert = require('assert');
+// Connection URL 
+var url = 'mongodb://localhost:27017/node_riddles';
 //Number of pages we need to scrape
-const num_pages = 200;
+const num_pages = 20;
 //The base url we are scraping
 const base = "https://www.riddles.com/";
-//Data structure that holds our needed data
-var obj = { data: []};
 
-//Write the data to a file
-function toFile() {
-	
-};
+// Use connect method to connect to the Server 
+MongoClient.connect(url, (err, db) => {
+	assert.equal(null, err);
+	console.log("Connected correctly to server");
+	db.close();
+});
 
 //Function that makes requests to the parameterized url
 function makeRequest(urls) {
@@ -36,10 +40,6 @@ function makeRequest(urls) {
 		  				title: title,
 		  				quesiton: question,
 		  				answer: answer
-		  			};
-		  			obj.data.push(jsonObj);
-		  			if (obj.data.length >= num_pages) {
-		  				toFile();
 		  			};
 	  			}
 	  		}
