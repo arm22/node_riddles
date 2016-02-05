@@ -7,11 +7,11 @@ const assert = require('assert');
 // Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
 //Number of pages we need to scrape
-const num_pages = 10;
+const num_pages = 1;
 //The base url we are scraping
 const base = "https://www.riddles.com/";
 //Json object of riddles
-var obj = {data : []};
+var data = [];
 
 //Function that makes requests to the parameterized url
 function makeRequest(urls) {
@@ -36,21 +36,30 @@ function makeRequest(urls) {
 		  				quesiton: question,
 		  				answer: answer
 		  			};
+		  			data.push(jsonObj);
+		  			if (data.length == num_pages) {
+		  				//Use connect method to connect to the Server 
+						MongoClient.connect(url, (err, db) => {
+							assert.equal(null, err);
+							console.log("Connected correctly to server");
+
+							//Insert all the documents and set callback function to close the db
+							insertDocuments(db, data, () => {
+								db.close();
+							});
+						});
+		  			}
 	  			}
 	  		}
 	});
 };
 
-function insertDocuments(db, callback) {
-	var collection = db.collection('documents');
+function insertDocuments(db, documents, callback) {
+	var collection = db.collection('riddles');
 	// Insert some documents 
-	collection.insertMany([
-		{a : 1}, {a : 2}, {a : 3}
-  	], (err, result) => {
+	collection.insertMany(documents, (err, result) => {
     	assert.equal(err, null);
-    	assert.equal(3, result.result.n);
-    	assert.equal(3, result.ops.length);
-    	console.log("Inserted 3 documents into the document collection");
+    	console.log("success");
 		callback(result);
 	});
 };
@@ -58,13 +67,3 @@ function insertDocuments(db, callback) {
 for (var i = 2; i <= num_pages+1; i++) {
 	setTimeout(makeRequest(base + i.toString()), 300);
 };
-
-Use connect method to connect to the Server 
-MongoClient.connect(url, (err, db) => {
-	assert.equal(null, err);
-	console.log("Connected correctly to server");
-
-	insertDocuments(db, () => {
-		db.close();
-	});
-});
