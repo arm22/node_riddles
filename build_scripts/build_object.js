@@ -2,8 +2,6 @@
 const jsdom = require("jsdom");
 //DB client
 const MongoClient = require('mongodb').MongoClient;
-//Assertion for DB
-const assert = require('assert');
 // Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
 //Number of pages we need to scrape
@@ -40,13 +38,16 @@ function makeRequest(urls) {
 		  			if (data.length == num_pages) {
 		  				//Use connect method to connect to the Server 
 						MongoClient.connect(url, (err, db) => {
-							assert.equal(null, err);
-							console.log("Connected correctly to server");
+							if (err) {
+								console.log(err);
+							} else {
+								console.log("Connected correctly to server");
 
-							//Insert all the documents and set callback function to close the db
-							insertDocuments(db, data, () => {
-								db.close();
-							});
+								//Insert all the documents and set callback function to close the db
+								insertDocuments(db, data, () => {
+									db.close();
+								});
+							}
 						});
 		  			}
 	  			}
