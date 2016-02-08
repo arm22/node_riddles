@@ -42,26 +42,21 @@ function makeRequest(urls) {
 								console.log(err);
 							} else {
 								console.log("Connected correctly to server");
-
-								//Insert all the documents and set callback function to close the db
-								insertDocuments(db, data, () => {
-									db.close();
+								var collection = db.collection('riddles');
+								//Insert all the documents and close db
+								collection.insertMany(documents, (err, result) => {
+							    	if (err) {
+							    		console.log(err);
+							    	} else {
+							    		console.log("success");
+										db.close();
+									}
 								});
 							}
 						});
 		  			}
 	  			}
 	  		}
-	});
-};
-
-function insertDocuments(db, documents, callback) {
-	var collection = db.collection('riddles');
-	// Insert some documents 
-	collection.insertMany(documents, (err, result) => {
-    	assert.equal(err, null);
-    	console.log("success");
-		callback(result);
 	});
 };
 
