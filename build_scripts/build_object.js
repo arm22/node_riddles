@@ -21,7 +21,7 @@ function makeRequest(urls) {
 	  		done: (err, window) => {
 	  			//Check for error
 	  			if (err) {
-	  				console.log("Error: " + err);
+	  				console.log("JSDOM Error: " + err);
 	  			} else {
 	  				var jsonObj;
 	  				var title = window.$('h1.panel-title[itemprop="name"]').first().text();
@@ -40,7 +40,7 @@ function makeRequest(urls) {
 		  				//Use connect method to connect to the Server 
 						MongoClient.connect(url, (err, db) => {
 							if (err) {
-								console.log(err);
+								console.log("Mongo Error: " + err);
 							} else {
 								console.log("Connected correctly to server");
 								var collection = db.collection('riddles');
