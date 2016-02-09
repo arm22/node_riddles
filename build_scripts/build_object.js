@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 // Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
 //Number of pages we need to scrape
-const num_pages = 10;
+const num_pages = 50;
 //The base url we are scraping
 const base = "https://www.riddles.com/";
 //Json object of riddles
@@ -31,7 +31,7 @@ function makeRequest(urls) {
 		  			//Build riddle object
 		  			jsonObj = {
 		  				title : title,
-		  				quesiton : question,
+		  				question : question,
 		  				answer : answer
 		  			};
 		  			data.push(jsonObj);
