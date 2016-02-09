@@ -21,12 +21,11 @@ var server = http.createServer((req, res) => {
 					if (err) {
 						console.log("Mongo Error: " + err);
 					} else {
-						console.log(docs);
 						db.close();
+						res.end(JSON.stringify(docs[0]))
 					}
 				});
 			}
-			res.end();
 		});
 	} else {
 		res.statusCode = 404;
