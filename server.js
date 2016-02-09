@@ -17,7 +17,7 @@ var server = http.createServer((req, res) => {
 			} else {
 				console.log("Connected correctly to server");
 				var collection = db.collection('riddles');
-				var cursor = collection.find({}).toArray((err, docs) => {
+				var cursor = collection.aggregate([{ $sample: { size: 1 }}], (err, docs) => {
 					if (err) {
 						console.log("Mongo Error: " + err);
 					} else {
