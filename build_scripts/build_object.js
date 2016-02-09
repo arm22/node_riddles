@@ -32,8 +32,7 @@ function makeRequest(urls) {
 		  			jsonObj = {
 		  				title : title,
 		  				quesiton : question,
-		  				answer : answer,
-		  				random : Math.random()
+		  				answer : answer
 		  			};
 		  			data.push(jsonObj);
 		  			if (data.length == num_pages) {
