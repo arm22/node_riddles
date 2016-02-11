@@ -4,8 +4,10 @@ const jsdom = require("jsdom");
 const MongoClient = require('mongodb').MongoClient;
 // Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
-//Number of pages we need to scrape
-const num_pages = 50;
+//Page to start scraping
+const start_page = 2;
+//Page to end scraping
+const end_page = 50
 //The base url we are scraping
 const base = "https://www.riddles.com/";
 //Json object of riddles
@@ -35,7 +37,7 @@ function makeRequest(urls) {
 		  				answer : answer
 		  			};
 		  			data.push(jsonObj);
-		  			if (data.length == num_pages) {
+		  			if (data.length == (end_page - start_page)) {
 		  				//Use connect method to connect to the Server 
 						MongoClient.connect(url, (err, db) => {
 							if (err) {
@@ -49,7 +51,7 @@ function makeRequest(urls) {
 							    		console.log(err);
 							    	} else {
 							    		console.log("success");
-										db.close();
+											db.close();
 									}
 								});
 							}
@@ -60,6 +62,6 @@ function makeRequest(urls) {
 	});
 };
 
-for (var i = 2; i <= num_pages+1; i++) {
+for (var i = start_page; i <= end_page; i++) {
 	setTimeout(makeRequest(base + i.toString()), 300);
 };
