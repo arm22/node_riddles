@@ -1,25 +1,18 @@
 //Need http
-var http = require("http");
+const express = require('express');
+const app = express();
 //DB client
 const MongoClient = require('mongodb').MongoClient;
-// Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
 
-//Create server
-var server = http.createServer((req, res) => {
-	//handle favicon route
-	if (req.method === 'GET' && req.url === '/favicon.ico') {
-		res.statusCode = 404;
-		res.end();
-	//handle main get request
-	} else if (req.method === 'GET') {
-		res.writeHead(200, {"Content-Type": "application/json"});
+app.get('/', (req, res) => {
+	res.writeHead(200, {"Content-Type": "application/json"});
 		//Create connection to server
 		MongoClient.connect(url, (err, db) => {
 			if (err) {
 				console.log("Mongo Error: " + err);
 			} else {
-				console.log("Connected correctly to server");
+				console.log("Connected correctly to DB");
 				var collection = db.collection('riddles');
 				//Query for a random riddle from mongo
 				collection.aggregate([{ $sample: { size: 1 }}], (err, docs) => {
@@ -33,13 +26,9 @@ var server = http.createServer((req, res) => {
 				});
 			}
 		});
-	//handle all other routes
-	} else {
-		res.statusCode = 404;
-		res.end();
-	}	
 });
 
 //start server
-server.listen(8080);
-console.log("Server is listening");
+app.listen(8080,() => {
+  console.log('Example app listening on port 8080!');
+});
