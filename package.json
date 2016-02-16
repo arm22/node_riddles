@@ -19,6 +19,7 @@
   "homepage": "https://github.com/arm22/node_riddles#readme",
   "dependencies": {
     "express": "^4.13.4",
+    "jade": "^1.11.0",
     "jsdom": "^7.2.2",
     "mongodb": "^2.1.4"
   }
