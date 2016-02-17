@@ -18,10 +18,22 @@ app.get('/random', (req, res) => {
 
 app.post('/random', (req, res) => {
 	//need slack token
+	var key = "";
 	if (req.body.token === key) {
 		var data = getRandom((data) => {
 			var question = data.question.replace(/\r?\n|\r/g, " ");
-			res.end(JSON.stringify(question));
+			var answer = data.answer.replace(/\r?\n|\r/g, " ");
+			var response = {
+								    "response_type": "in_channel",
+								    "text": question,
+								    "attachments": [
+								        {
+								            "text":"Answer: " + answer
+								        }
+								    ]
+								};
+			res.setHeader('Content-Type', 'application/json');
+			res.end(JSON.stringify(response));
 		});
 	}
 });
