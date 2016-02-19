@@ -5,6 +5,9 @@ const app = express();
 //Set the app to use the body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+//Use nconf for keystore
+const nconf = require('nconf');
+nconf.file({file: './keys.json'});
 //DB client
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/node_riddles';
@@ -17,14 +20,12 @@ app.get('/random', (req, res) => {
 });
 
 app.post('/random', (req, res) => {
-	//need slack token
-	var key = "";
-	if (req.body.token === key) {
+	if (req.body.token === nconf.get('token')) {
 		var data = getRandom((data) => {
 			var question = data.question.replace(/\r?\n|\r/g, " ");
 			var answer = data.answer.replace(/\r?\n|\r/g, " ");
 			var response = {
-								    "response_type": "in_channel",
+								    "response_type": "ephemeral",
 								    "text": question,
 								    "attachments": [
 								        {
