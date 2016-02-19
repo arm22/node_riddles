@@ -1,4 +1,4 @@
 node_modules/
 build_scripts/data.json
 *.log
-keys.js
+keys.json
