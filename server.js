@@ -42,7 +42,7 @@ app.post('/random', (req, res) => {
 //common function to get a random riddle
 function getRandom(callback) {
 	//Create connection to server
-	MongoClient.connect("mongodb://" + nconf.get('mongodb.host') + "/" + nconf.get('mongodb.port') + "/" + nconf.get('mongodb.collection'), (err, db) => {
+	MongoClient.connect("mongodb://" + nconf.get('mongodb:host') + ":" + nconf.get('mongodb:port') + "/" + nconf.get('mongodb:collection'), (err, db) => {
 		if (err) {
 			throw err;
 		} else {
