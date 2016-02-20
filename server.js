@@ -10,7 +10,6 @@ const nconf = require('nconf');
 nconf.file({file: './keys.json'});
 //DB client
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/node_riddles';
 
 app.get('/random', (req, res) => {
 	res.writeHead(200, {"Content-Type": "application/json"});
@@ -22,6 +21,7 @@ app.get('/random', (req, res) => {
 app.post('/random', (req, res) => {
 	if (req.body.token === nconf.get('token')) {
 		var data = getRandom((data) => {
+			console.log(req.body);
 			var question = data.question.replace(/\r?\n|\r/g, " ");
 			var answer = data.answer.replace(/\r?\n|\r/g, " ");
 			var response = {
@@ -42,7 +42,7 @@ app.post('/random', (req, res) => {
 //common function to get a random riddle
 function getRandom(callback) {
 	//Create connection to server
-	MongoClient.connect(url, (err, db) => {
+	MongoClient.connect("mongodb://" + nconf.get('mongodb.host') + "/" + nconf.get('mongodb.port') + "/" + nconf.get('mongodb.collection'), (err, db) => {
 		if (err) {
 			throw err;
 		} else {
