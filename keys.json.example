@@ -1,0 +1,8 @@
+{
+	"token": "slack slash token here",
+	"mongodb": {
+		"host": "localhost",
+		"port": 27017,
+		"collection": "node_riddles"
+	}
+}
