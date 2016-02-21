@@ -21,9 +21,10 @@ app.get('/random', (req, res) => {
 app.post('/random', (req, res) => {
 	if (req.body.token === nconf.get('token')) {
 		var data = getRandom((data) => {
-			console.log(req.body);
+			//Replace any whitespace
 			var question = data.question.replace(/\r?\n|\r/g, " ");
 			var answer = data.answer.replace(/\r?\n|\r/g, " ");
+			//Build slack response
 			var response = {
 								    "response_type": "ephemeral",
 								    "text": question,
@@ -33,6 +34,7 @@ app.post('/random', (req, res) => {
 								        }
 								    ]
 								};
+			//Set the header and end the response stream
 			res.setHeader('Content-Type', 'application/json');
 			res.end(JSON.stringify(response));
 		});
