@@ -12,9 +12,18 @@ nconf.file({file: './keys.json'});
 const MongoClient = require('mongodb').MongoClient;
 
 app.get('/random', (req, res) => {
-	res.writeHead(200, {"Content-Type": "application/json"});
 	var data = getRandom((data) => {
-		res.end(JSON.stringify(data));
+		//Replace any whitespace
+		var question = data.question.replace(/\r?\n|\r/g, " ");
+		var answer = data.answer.replace(/\r?\n|\r/g, " ");
+		//Build JSON riddle
+		var riddle = {
+			"question": question,
+			"answer": answer
+		};
+		//Set the header and end the response stream
+		res.writeHead(200, {"Content-Type": "application/json"});
+		res.end(JSON.stringify(riddle));
 	});
 });
 
@@ -24,8 +33,8 @@ app.post('/random', (req, res) => {
 			//Replace any whitespace
 			var question = data.question.replace(/\r?\n|\r/g, " ");
 			var answer = data.answer.replace(/\r?\n|\r/g, " ");
-			//Build slack response
-			var response = {
+			//Build slack riddle
+			var riddle = {
 								    "response_type": "ephemeral",
 								    "text": question,
 								    "attachments": [
@@ -35,8 +44,8 @@ app.post('/random', (req, res) => {
 								    ]
 								};
 			//Set the header and end the response stream
-			res.setHeader('Content-Type', 'application/json');
-			res.end(JSON.stringify(response));
+			res.writeHead(200, {"Content-Type": "application/json"});
+			res.end(JSON.stringify(riddle));
 		});
 	}
 });
