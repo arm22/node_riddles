@@ -17,36 +17,44 @@ app.get('/random', (req, res) => {
 		var question = data.question.replace(/\r?\n|\r/g, " ");
 		var answer = data.answer.replace(/\r?\n|\r/g, " ");
 		//Build JSON riddle
-		var riddle = {
+		var message = {
 			"question": question,
 			"answer": answer
 		};
 		//Set the header and end the response stream
 		res.writeHead(200, {"Content-Type": "application/json"});
-		res.end(JSON.stringify(riddle));
+		res.end(JSON.stringify(message));
 	});
 });
 
 app.post('/random', (req, res) => {
 	if (req.body.token === nconf.get('token')) {
-		var data = getRandom((data) => {
-			//Replace any whitespace
-			var question = data.question.replace(/\r?\n|\r/g, " ");
-			var answer = data.answer.replace(/\r?\n|\r/g, " ");
-			//Build slack riddle
-			var riddle = {
-								    "response_type": "ephemeral",
-								    "text": question,
-								    "attachments": [
-								        {
-								            "text":"Answer: " + answer
-								        }
-								    ]
-								};
-			//Set the header and end the response stream
-			res.writeHead(200, {"Content-Type": "application/json"});
-			res.end(JSON.stringify(riddle));
-		});
+    var text = req.body.text;
+    //Respond to help command
+    if (text.toLowerCase() === "help") {
+      var message = {
+        "response_type": "ephemeral",
+        "text": "`/riddle` is used to send a riddle into slack. Include a number of minutes to wait for an answer. For example `/riddle 5min` would post a riddle, and an answer 5 minutes later."
+      }
+      //Set the header and end the response stream
+      res.writeHead(200, {"Content-Type": "application/json"});
+      res.end(JSON.stringify(message));
+    } else {
+      var wait = parseInt(req.body.text);
+  		var data = getRandom((data) => {
+  			//Replace any whitespace
+  			var question = data.question.replace(/\r?\n|\r/g, " ");
+  			var answer = data.answer.replace(/\r?\n|\r/g, " ");
+  			//Build slack riddle
+  			var message = {
+  								    "response_type": "ephemeral",
+  								    "text": question
+  								};
+  			//Set the header and end the response stream
+  			res.writeHead(200, {"Content-Type": "application/json"});
+  			res.end(JSON.stringify(message));
+  		});
+    }
 	}
 });
 
