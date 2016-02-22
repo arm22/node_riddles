@@ -41,6 +41,7 @@ app.post('/random', (req, res) => {
       res.end(JSON.stringify(message));
     } else {
       var wait = parseInt(req.body.text);
+      var resp_url = req.body.respone_url;
   		var data = getRandom((data) => {
   			//Replace any whitespace
   			var question = data.question.replace(/\r?\n|\r/g, " ");
