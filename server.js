@@ -1,3 +1,5 @@
+//Require request
+const request = require('request');
 //Require Express & body-parser
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -54,7 +56,20 @@ app.post('/random', (req, res) => {
         
         if (!isNaN(wait)) {
           //If wait is a number
-          setTimeout(function(){ console.log("Hello"); }, 3000);
+          var options = {
+            uri: req.body.response_url,
+            method: "POST",
+            json: {
+              "response_type": "in_channel",
+              "text": answer
+            }
+          };
+
+          request(options, (err, res, body) => {
+            if (!err && res.statusCode === 200){
+              console.log(body);
+            }
+          });
         } else {
           //If wait is not a number
 
