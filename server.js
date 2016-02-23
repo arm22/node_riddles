@@ -40,8 +40,8 @@ app.post('/random', (req, res) => {
       res.writeHead(200, {"Content-Type": "application/json"});
       res.end(JSON.stringify(message));
     } else {
+      //Convert param to int
       var wait = parseInt(req.body.text);
-      var resp_url = req.body.respone_url;
   		var data = getRandom((data) => {
   			//Replace any whitespace
   			var question = data.question.replace(/\r?\n|\r/g, " ");
@@ -51,6 +51,14 @@ app.post('/random', (req, res) => {
   								    "response_type": "ephemeral",
   								    "text": question
   								};
+        
+        if (!isNaN(wait)) {
+          //If wait is a number
+          setTimeout(function(){ console.log("Hello"); }, 3000);
+        } else {
+          //If wait is not a number
+
+        }
   			//Set the header and end the response stream
   			res.writeHead(200, {"Content-Type": "application/json"});
   			res.end(JSON.stringify(message));
