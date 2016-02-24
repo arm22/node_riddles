@@ -7,6 +7,7 @@ const app = express();
 //Set the app to use the body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 //Use nconf for keystore
 const nconf = require('nconf');
 nconf.file({file: './keys.json'});
