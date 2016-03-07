@@ -1,0 +1,19 @@
+{
+  "name": "node_riddles",
+  "description": "A riddle database and api written in node",
+  "main": "server.js",
+  "authors": [
+    "Austin Meyers"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/arm22/node_riddles",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
