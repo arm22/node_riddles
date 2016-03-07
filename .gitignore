@@ -2,3 +2,4 @@ node_modules/
 build_scripts/data.json
 *.log
 keys.json
+public/css/material-design-lite/
