@@ -13,24 +13,31 @@
     <![endif]-->
   </head>
   <body> 
-    <div class="mdl-layout mdl-js-layout">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <div>
             <img src="css/slack_icon.png" class="head-icon">
           </div>
           <span class="mdl-layout-title">Slack Riddles</span>
+          <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+                Add to Slack
+              </button>
+            </a>
+          </nav>
         </div>
       </header>
       <main class="mdl-layout__content">
-<!--         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-          Add to Slack
-        </button>
+
         <p>This integration allows you to post a random riddle into slack, and reveice an answer in the minuts provided</p>
         <h3> Help Commands </h3>
         <ul>
           <li>/riddle help</li>
-        </ul> -->
+        </ul>
       </main>
     </div>
   </body>
