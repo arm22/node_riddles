@@ -8,3 +8,8 @@
   padding-left: 40px;
   padding-right: 40px;
 }
+
+footer button.mdl-button {
+  width: 100%;
+  height: 46px;
+}

@@ -22,8 +22,7 @@
           </div>
           <span class="mdl-layout-title">Slack Riddles</span>
           <div class="mdl-layout-spacer"></div>
-      <!-- Navigation. We hide it in small screens. -->
-          <nav class="mdl-navigation">
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
             <a class="mdl-navigation__link" href="http://austinrmeyers.com">
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
                 Add to Slack
@@ -33,12 +32,15 @@
         </div>
       </header>
       <main class="mdl-layout__content">
-        <p>This integration allows you to post a random riddle into slack, and reveice an answer in the minuts provided</p>
-        <h3> Help Commands </h3>
-        <ul>
-          <li>/riddle help</li>
-        </ul>
+        
       </main>
+      <footer class="mdl-layout--small-screen-only">
+        <a class="mdl-navigation__link" href="http://austinrmeyers.com">
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">
+            Add to Slack
+          </button>
+        </a>
+      </footer>
     </div>
   </body>
   <script src="css/material-design-lite/material.min.js"></script>
