@@ -65,12 +65,6 @@ app.post('/random', (req, res) => {
               "text": answer
             }
           };
-
-          request(options, (err, res, body) => {
-            if (!err && res.statusCode === 200){
-              console.log(body);
-            }
-          });
         } else {
           //If wait is not a number
 
