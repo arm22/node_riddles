@@ -13,3 +13,16 @@ footer button.mdl-button {
   width: 100%;
   height: 46px;
 }
+
+.demo-card-wide.mdl-card {
+  width: 100%;
+}
+
+.demo-card-wide > .mdl-card__title {
+  color: black;
+  height: 176px;
+}
+
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
