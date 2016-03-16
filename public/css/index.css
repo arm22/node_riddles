@@ -19,9 +19,9 @@ footer button.mdl-button {
 }
 
 .demo-card-wide > .mdl-card__title {
-  color: black;
+  color: white;
   height: 176px;
-  background: url('card_bg.jpg') center / cover;
+  background-color: rgb(48, 63, 159);
 }
 
 .demo-card-wide > .mdl-card__menu {
