@@ -1,4 +1,4 @@
-const fs = requeire('fs');
+const fs = require('fs');
 const https = require('https');
 //Require Express & body-parser
 const express = require('express');
