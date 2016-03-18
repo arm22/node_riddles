@@ -1,5 +1,6 @@
-//Require request
-const request = require('request');
+    var fs = require('fs'),
+const fs = requeire('fs');
+const https = require('https');
 //Require Express & body-parser
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,6 +12,15 @@ app.use(express.static('public'));
 //Use nconf for keystore
 const nconf = require('nconf');
 nconf.file({file: './keys.json'});
+
+var options = {
+  ca: fs.readFileSync('../ssl/www_slack-riddle_xyz.ca-bundle'),
+  key: fs.readFileSync('../ssl/private-key.key'),
+  cert: fs.readFileSync('../ssl/www_slack-riddle_xyz.crt')
+}
+//Start server
+https.createServer(options, app).listen(443);
+
 //DB client
 const MongoClient = require('mongodb').MongoClient;
 
@@ -98,8 +108,3 @@ function getRandom(callback) {
 		}
 	});
 }
-
-//start server
-app.listen(8080,() => {
-  console.log('Node Riddles listening on port 8080!');
-});
