@@ -1,4 +1,3 @@
-    var fs = require('fs'),
 const fs = requeire('fs');
 const https = require('https');
 //Require Express & body-parser
