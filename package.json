@@ -2,9 +2,8 @@
   "name": "node_riddles",
   "version": "1.0.0",
   "description": "A riddle database and api written in node",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "make": "node build_scripts/build_object.js"
   },
   "repository": {
