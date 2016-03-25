@@ -4,3 +4,4 @@ build_scripts/data.json
 keys.json
 public/css/material-design-lite/
 ssl/
+*.rdb
