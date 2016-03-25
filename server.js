@@ -3,12 +3,7 @@ const https = require('https');
 const request = require('request');
 const kue = require('kue');
 const q = kue.createQueue({
-  prefix: 'q',
-  redis: {
-    port: 6379,
-    host: '127.0.0.1',
-    db: 1
-  }
+
 });
 kue.app.listen(3000);
 
