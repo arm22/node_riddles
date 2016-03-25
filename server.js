@@ -1,5 +1,30 @@
 const fs = require('fs');
 const https = require('https');
+const request = require('request');
+const kue = require('kue');
+const q = kue.createQueue({
+  prefix: 'q',
+  redis: {
+    port: 6379,
+    host: '127.0.0.1',
+    db: 1
+  }
+});
+kue.app.listen(3000);
+
+q.process('post-resp', function(job, done){
+  send(job, done);
+});
+
+function send(job, done) {
+  request({
+    uri: job.data.uri,
+    method: job.data.method,
+    json: job.data.json
+  });
+  done();
+}
+
 //Require Express & body-parser
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,9 +38,9 @@ const nconf = require('nconf');
 nconf.file({file: './keys.json'});
 
 var options = {
-  ca: fs.readFileSync('../ssl/www_slack-riddle_xyz.ca-bundle'),
-  key: fs.readFileSync('../ssl/private-key.key'),
-  cert: fs.readFileSync('../ssl/www_slack-riddle_xyz.crt')
+  ca: fs.readFileSync('ssl/www_slack-riddle_xyz.ca-bundle'),
+  key: fs.readFileSync('ssl/private-key.key'),
+  cert: fs.readFileSync('ssl/www_slack-riddle_xyz.crt')
 }
 //Start server
 https.createServer(options, app).listen(443);
@@ -60,20 +85,28 @@ app.post('/random', (req, res) => {
   			var answer = data.answer.replace(/\r?\n|\r/g, " ");
   			//Build slack riddle
   			var message = {
-  								    "response_type": "ephemeral",
-  								    "text": question
+  								    "response_type": "in_channel",
+                      "text": "Riddle:",
+                      "attachments": [
+                        {
+                          "text": question
+                        }
+                      ]
   								};
         
         if (!isNaN(wait)) {
+          var send_time = new Date();
+          send_time.setMinutes(send_time.getMinutes() + wait);
           //If wait is a number
-          var options = {
+          var data = q.create('post-resp', {
             uri: req.body.response_url,
             method: "POST",
             json: {
               "response_type": "in_channel",
               "text": answer
             }
-          };
+          }).delay(send_time)
+          .save();
         } else {
           //If wait is not a number
 
