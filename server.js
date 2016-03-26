@@ -5,7 +5,6 @@ const kue = require('kue');
 const q = kue.createQueue({
 
 });
-kue.app.listen(3000);
 
 q.process('post-resp', function(job, done){
   send(job, done);
@@ -98,7 +97,12 @@ app.post('/random', (req, res) => {
             method: "POST",
             json: {
               "response_type": "in_channel",
-              "text": answer
+              "text": "Answer:",
+              "attachments": [
+                        {
+                          "text": answer
+                        }
+                      ]
             }
           }).delay(send_time)
           .save();
