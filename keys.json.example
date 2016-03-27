@@ -4,5 +4,11 @@
 		"host": "whatever",
 		"port": 3241,
 		"collection": "your_col"
-	}
+	},
+  "redis": {
+    host: 6379,
+    port: 127.0.0.1,
+    auth: 'password',
+    db: 3
+  } 
 }
