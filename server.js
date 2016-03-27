@@ -3,7 +3,12 @@ const https = require('https');
 const request = require('request');
 const kue = require('kue');
 const q = kue.createQueue({
-
+  prefix: 'q',
+  redis: {
+    host: nconf.get('redis:host'),
+    port: nconf.get('redis:port'),
+    db: nconf.get('redis:db')
+  }
 });
 
 q.process('post-resp', function(job, done){
