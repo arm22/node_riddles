@@ -1,13 +1,14 @@
+//Page to start scraping
+var start_page = process.argv[2];
+//Page to end scraping
+var end_page = process.argv[3];
+
 //Require jsdom library
 const jsdom = require("jsdom");
 //DB client
 const MongoClient = require('mongodb').MongoClient;
 // Connection URL 
 var url = 'mongodb://localhost:27017/node_riddles';
-//Page to start scraping
-const start_page = 2;
-//Page to end scraping
-const end_page = 50
 //The base url we are scraping
 const base = "https://www.riddles.com/";
 //Json object of riddles
