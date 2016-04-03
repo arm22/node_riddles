@@ -1,6 +1,5 @@
 const fs = require('fs');
 const https = require('https');
-const request = require('request');
 const kue = require('kue');
 const q = kue.createQueue({
   prefix: 'q',
