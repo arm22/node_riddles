@@ -1,6 +1,19 @@
 const fs = require('fs');
 const https = require('https');
 const kue = require('kue');
+//Require Express & body-parser
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+//Set the app to use the body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+//Use nconf for keystore
+const nconf = require('nconf');
+nconf.file({file: './keys.json'});
+
+//Connect to redis
 const q = kue.createQueue({
   prefix: 'q',
   redis: {
@@ -21,19 +34,7 @@ function send(job, done) {
     json: job.data.json
   });
   done();
-}
-
-//Require Express & body-parser
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-//Set the app to use the body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
-//Use nconf for keystore
-const nconf = require('nconf');
-nconf.file({file: './keys.json'});
+};
 
 var options = {
   ca: fs.readFileSync('ssl/www_slack-riddle_xyz.ca-bundle'),
