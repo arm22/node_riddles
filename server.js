@@ -12,6 +12,17 @@ app.use(express.static('public'));
 //Use nconf for keystore
 const nconf = require('nconf');
 nconf.file({file: './keys.json'});
+var db;
+
+function setupDb(callback)
+{
+  db = require("./mongo.js");
+  db.init(nconf, callback);
+}
+
+setupDb(function() {
+  console.log("connected");
+});
 
 //Connect to redis
 const q = kue.createQueue({
@@ -33,7 +44,7 @@ var options = {
   cert: fs.readFileSync('ssl/www_slack-riddle_xyz.crt')
 }
 //Start server
-https.createServer(options, app).listen(443);
+https.createServer(options, app).listen(8080);
 
 app.get('/random', (req, res) => {
 	var data = getRandom((data) => {
