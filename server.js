@@ -27,15 +27,6 @@ q.process('post-resp', function(job, done){
   send(job, done);
 });
 
-function send(job, done) {
-  request({
-    uri: job.data.uri,
-    method: job.data.method,
-    json: job.data.json
-  });
-  done();
-};
-
 var options = {
   ca: fs.readFileSync('ssl/www_slack-riddle_xyz.ca-bundle'),
   key: fs.readFileSync('ssl/private-key.key'),
