@@ -1,16 +1,18 @@
 const fs = require('fs');
 const https = require('https');
 const request = require('request');
+//Use nconf for keystore
+const nconf = require('nconf');
+nconf.file({file: './keys.json'});
 const kue = require('kue');
 const q = kue.createQueue({
   prefix: 'q',
   redis: {
-    port: 6379,
-    host: '127.0.0.1',
-    db: 1
+    host: nconf.get('redis:host'),
+    port: nconf.get('redis:port'),
+    db: nconf.get('redis:db')
   }
 });
-kue.app.listen(3000);
 
 q.process('post-resp', function(job, done){
   send(job, done);
@@ -33,14 +35,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-//Use nconf for keystore
-const nconf = require('nconf');
-nconf.file({file: './keys.json'});
 
 var options = {
-  ca: fs.readFileSync('../ssl/www_slack-riddle_xyz.ca-bundle'),
-  key: fs.readFileSync('../ssl/private-key.key'),
-  cert: fs.readFileSync('../ssl/www_slack-riddle_xyz.crt')
+  ca: fs.readFileSync('ssl/www_slack-riddle_xyz.ca-bundle'),
+  key: fs.readFileSync('ssl/private-key.key'),
+  cert: fs.readFileSync('ssl/www_slack-riddle_xyz.crt')
 }
 //Start server
 https.createServer(options, app).listen(443);
@@ -103,7 +102,12 @@ app.post('/random', (req, res) => {
             method: "POST",
             json: {
               "response_type": "in_channel",
-              "text": answer
+              "text": "Answer:",
+              "attachments": [
+                        {
+                          "text": answer
+                        }
+                      ]
             }
           }).delay(send_time)
           .save();
@@ -139,4 +143,4 @@ function getRandom(callback) {
       });
     }
   });
-};
+}
