@@ -1,6 +1,5 @@
 const fs = require('fs');
 const https = require('https');
-const request = require('request');
 //Use nconf for keystore
 const nconf = require('nconf');
 nconf.file({file: './keys.json'});
@@ -15,17 +14,8 @@ const q = kue.createQueue({
 });
 
 q.process('post-resp', function(job, done){
-  send(job, done);
+  require('./send')(job, done);
 });
-
-function send(job, done) {
-  request({
-    uri: job.data.uri,
-    method: job.data.method,
-    json: job.data.json
-  });
-  done();
-}
 
 //Require Express & body-parser
 const express = require('express');
