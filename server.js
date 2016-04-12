@@ -103,7 +103,7 @@ app.post('/random', (req, res) => {
           .save();
         } else {
           //If wait is not a number
-
+          message.attachments[1] = {"text": answer};
         }
         //Set the header and end the response stream
         res.writeHead(200, {"Content-Type": "application/json"});
